@@ -5,16 +5,8 @@
 </p>
 
 
-Junior Android developer entrance test
 
 
-#### Task:
-* Using the API PrivatBank need to get information about ATMs and self-service terminals relative to the specified location.
-* Display all information on the card.
-* By clicking on the marker ATM or terminal output for more information.
-* It is possible to get routes.
-* From the definition of location on GPS.
-* To realize the possibility of the program without the Internet.
 
 #### Search
 
