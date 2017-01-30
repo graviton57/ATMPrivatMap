@@ -1,0 +1,4 @@
+<resources>
+    <!-- Extra List Item Margin (tablet-only) -->
+    <dimen name="list_item_extra_padding">64dp</dimen>
+</resources>

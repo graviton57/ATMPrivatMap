@@ -1,0 +1,63 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.havrylyuk.privat.activity.FavoritesActivity"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/point_place"
+        style="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_height="wrap_content"
+        tools:text="ТРЦ Екватор"
+        android:textIsSelectable="true"
+        android:layout_width="match_parent"
+        android:textStyle="normal|bold" />
+    <TextView
+        android:id="@+id/point_destination"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_height="wrap_content"
+        android:textColor="@color/secondary_text"
+        tools:text="Distance: 15км Duration: 1ч 43 м"
+        android:textIsSelectable="true"
+        android:layout_width="match_parent"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:id="@+id/point_city"
+        style="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        tools:text="Черновцы"
+        android:textIsSelectable="true"
+        android:layout_width="match_parent"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:id="@+id/point_address"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_height="wrap_content"
+        android:textColor="@color/secondary_text"
+        tools:text="Черновицкая область г.Черновцы ул.Русская 248 Украина 57300"
+        android:textIsSelectable="true"
+        android:layout_width="match_parent"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:id="@+id/point_tw"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/title_image_padding"
+        tools:text="Время работы:\n Пн:00.00-23.00 \n Пн:00.00-23.00 \n Пн:00.00-23.00 \n Пн:00.00-23.00 \n Пн:00.00-23.00 \n Пн:00.00-23.00 \n"
+        android:textIsSelectable="true"
+        />
+</LinearLayout>

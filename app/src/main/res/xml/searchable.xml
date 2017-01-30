@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<searchable xmlns:android="http://schemas.android.com/apk/res/android"
+    android:inputType="textCapWords|textCapSentences"
+    android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
+    android:voiceLanguageModel="web_search"
+    android:label="@string/action_search"
+    android:hint="City, street, home" >
+</searchable>

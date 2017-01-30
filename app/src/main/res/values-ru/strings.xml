@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="http://schemas.android.com/tools">
+    <string name="app_name">Acquiring Assistant</string>
+    <string name="action_search">Поиск</string>
+    <string name="action_settings">Настройки</string>
+    <string name="add_favorite">Добавлено в список избранного</string>
+    <string name="atm">Банкомат</string>
+    <string name="cancel">Операция отменена!</string>
+    <string name="click_detail">Детальнее</string>
+    <string name="error_build_route">Ошибка построения маршрута</string>
+    <string name="format_address">Адресс: <xliff:g id="code">%1$s</xliff:g></string>
+    <string name="format_city">Город:<xliff:g id="code">%1$s</xliff:g></string>
+    <string name="format_dest_time">"Расстояние:<xliff:g id="code">%1$s</xliff:g> Время в пути:<xliff:g id="code">%2$s</xliff:g> "</string>
+    <string name="format_found_points">Найдено <xliff:g id="code">%1$s</xliff:g> эквайринговых точек!</string>
+    <string name="format_place">Расположение: <xliff:g id="code">%1$s</xliff:g></string>
+    <string name="format_time_work">"Время работы:          <xliff:g id="mon">%1$s</xliff:g>          <xliff:g id="tue">%2$s</xliff:g>          <xliff:g id="wed">%3$s</xliff:g>          <xliff:g id="thu">%4$s</xliff:g>          <xliff:g id="fri">%5$s</xliff:g>          <xliff:g id="sat">%6$s</xliff:g>          <xliff:g id="sun">%7$s</xliff:g>          <xliff:g id="hol">%8$s</xliff:g>     "</string>
+    <string name="fri">Пятница</string>
+    <string name="hol">Праздники</string>
+    <string name="mon">Понедельник</string>
+    <string name="nothing_found">Ничего не найдено!</string>
+    <string name="permission_denied">Отказанов доступе</string>
+    <string name="pref_header_general">Основные настройки</string>
+    <string name="pref_locator_sum">Показывать маркер локации</string>
+    <string name="pref_locator_title">Маркеры</string>
+    <string name="remove_favorite">Удалено из списка избранного</string>
+    <string name="sat">Суббота</string>
+    <string name="self_position">Ваше текущеее местоположение</string>
+    <string name="sun">Воскресенье</string>
+    <string name="sync_complete">Загрузка данных успешно завершена.</string>
+    <string name="text_favorites">Избранное</string>
+    <string name="text_share">Поделиться</string>
+    <string name="title_activity_maps">Банкоматы ПриватБанка</string>
+    <string name="thu">Четверг</string>
+    <string name="tso">Терминал</string>
+    <string name="tue">Вторник</string>
+    <string name="undo">Отмена</string>
+    <string name="wed">Среда</string>
+    <string name="all">Все</string>
+    <string name="pref_suggestions_start_count_title">Начинать автозаполнение после</string>
+    <string name="pref_title_query_list">Искать</string>
+</resources>

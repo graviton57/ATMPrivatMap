@@ -1,0 +1,80 @@
+<resources xmlns:xliff="http://schemas.android.com/tools">
+    <string name="app_name">Acquiring Assistant</string>
+    <string name="title_activity_maps">Privat Atm Map</string>
+    <string name="permission_denied">Permission denied</string>
+    <!-- Atm or Tso -->
+    <string name="type_atm" translatable="false">ATM</string>
+    <string name="type_tso" translatable="false">TSO</string>
+    <!-- google maps Api key -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAg-yfxtVXPil9vS1vHdyjxEI1zknr2SFo</string>
+    <!-- Detail strings -->
+    <string name="detail_icon_transition_name" translatable="false">TN_NAME</string>
+    <string name="add_favorite">Added to the list of favorites</string>
+    <string name="remove_favorite">Remove to the list of favorites</string>
+    <string name="cancel">Operation canceled!</string>
+    <string name="undo">Undo</string>
+    <string name="atm">ATM</string>
+    <string name="tso">Terminal </string>
+    <string name="click_detail">Click for details</string>
+    <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
+    <string name="text_favorites">Favorites</string>
+    <string name="text_share">Share</string>
+    <string name="format_found_points">Found <xliff:g id="code">%1$s</xliff:g> points!</string>
+
+    <string name="mon">Monday:</string>
+    <string name="tue">Tuesday:</string>
+    <string name="wed">Wednesday:</string>
+    <string name="thu">Thursday:</string>
+    <string name="fri">Friday:</string>
+    <string name="sat">Saturday:</string>
+    <string name="sun">Sunday:</string>
+    <string name="hol">Holidays:</string>
+
+    <string name="format_dest_time">Distance:<xliff:g id="code">%1$s</xliff:g>\nDuration:<xliff:g id="code">%2$s</xliff:g> </string>
+    <string name="format_place">Place:\n<xliff:g id="code">%1$s</xliff:g></string>
+    <string name="format_address">Address:\n<xliff:g id="code">%1$s</xliff:g></string>
+    <string name="format_city">City:<xliff:g id="code">%1$s</xliff:g></string>
+    <string name="format_title" translatable="false"><xliff:g id="code">%1$s</xliff:g> PrivatBank</string>
+    <string name="self_position">Current Position</string>
+    <string name="format_time_work">Work time:\n
+        <xliff:g id="mon">%1$s</xliff:g>\n
+        <xliff:g id="tue">%2$s</xliff:g>\n
+        <xliff:g id="wed">%3$s</xliff:g>\n
+        <xliff:g id="thu">%4$s</xliff:g>\n
+        <xliff:g id="fri">%5$s</xliff:g>\n
+        <xliff:g id="sat">%6$s</xliff:g>\n
+        <xliff:g id="sun">%7$s</xliff:g>\n
+        <xliff:g id="hol">%8$s</xliff:g>
+    </string>
+
+    <string name="nothing_found">Nothing found!</string>
+    <string name="sync_complete">Sync complete</string>
+    <string name="error_build_route">Error build route!</string>
+
+    <string name="pref_suggestions_start_count_title" >Suggestions start with count</string>
+    <string name="pref_locator_title">Markers</string>
+    <string name="all">All</string>
+    <string name="pref_locator_sum">Show you location marker</string>
+    <string name="pref_title_query_list">Search by</string>
+    <string name="pref_suggestions_start_count_key" translatable="false">suggestions_start_count_key</string>
+    <string name="pref_marker_switch_key" translatable="false">marker_switch_key</string>
+    <string name="pref_query_list_key" translatable="false">pref_query_list_key</string>
+
+
+    <!-- Shared  pref strings -->
+    <string name="pref_header_general">General</string>
+    <string-array name="pref_query_list_titles" >
+        <item>@string/all</item>
+        <item>@string/atm</item>
+        <item>@string/tso</item>
+    </string-array>
+    <string-array name="pref_query_list_values">
+        <item>ALL</item>
+        <item>ATM</item>
+        <item>TSO</item>
+    </string-array>
+
+
+
+</resources>
