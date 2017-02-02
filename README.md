@@ -6,7 +6,8 @@
 
 
 
-
+#### All ATM and Terminals
+![alt text](screenshot/activity0.png "Activity 0")
 
 #### Search
 
