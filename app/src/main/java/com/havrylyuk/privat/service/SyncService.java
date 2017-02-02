@@ -47,6 +47,7 @@ public class SyncService extends IntentService {
             String reqCity = intent.getStringExtra(EXTRA_CITY);
             String reqAddress = intent.getStringExtra(EXTRA_ADDRESS);
             if(Utility.isNetworkAvailable(getBaseContext())){ //no network
+                    Log.d(LOG_TAG, "load atm");
                     AcquiringService service = PrivatBankApiClient.retrofit().create(AcquiringService.class);
                     Call<AcquiringResponse> responseCall = service.getAtms(reqAddress, reqCity);
                     try {
@@ -57,21 +58,19 @@ public class SyncService extends IntentService {
                             cv[i] = pointsToContentValues(response.getAcquiringPoints().get(i));
                         }
                         getContentResolver().bulkInsert(AcquiringEntry.CONTENT_URI, cv);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
                     Log.d(LOG_TAG, "load terminal");
                     responseCall = service.getTerminals(reqAddress, reqCity);
-                    try {
-                        AcquiringResponse response =  responseCall.execute().body();
+
+                        response =  responseCall.execute().body();
                         assert response != null;
-                        ContentValues[] cv = new ContentValues[response.getAcquiringPoints().size()];
+                        cv = new ContentValues[response.getAcquiringPoints().size()];
                         for (int i = 0; i < response.getAcquiringPoints().size(); i++) {
                             cv[i] = pointsToContentValues(response.getAcquiringPoints().get(i));
                         }
                         getContentResolver().bulkInsert(AcquiringEntry.CONTENT_URI, cv);
                         sendSyncStatus(END_SYNC);
-                    } catch (IOException e) {
+                    } catch (IOException  | OutOfMemoryError e) {
                         e.printStackTrace();
                     }
 

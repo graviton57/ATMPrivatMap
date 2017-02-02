@@ -23,7 +23,7 @@ public class MapApiClient {
     public static Retrofit retrofit() {
         if (sRetrofit == null) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
             sRetrofit = new Retrofit.Builder()
                     .baseUrl(BASE_MAP_URL)

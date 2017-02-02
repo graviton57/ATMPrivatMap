@@ -286,9 +286,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onConnectionSuspended(int i) {
         //
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
+    private void addLocationMarker(Location location) {
         lastLocation = location;
         if (currLocationMarker != null) {
             currLocationMarker.remove();
@@ -298,9 +296,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.position(latLng);
         markerOptions.title(getString(R.string.self_position));
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        if (pref.isShowMarker(getString(R.string.pref_marker_switch_key))) {
+         if (pref.isShowMarker(getString(R.string.pref_marker_switch_key)) && map!=null) {
             currLocationMarker = map.addMarker(markerOptions);
         }
+    }
+    @Override
+    public void onLocationChanged(Location location) {
+
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        addLocationMarker(location);
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         map.animateCamera(CameraUpdateFactory.zoomTo(11));
         parseLocation(location);
@@ -410,6 +414,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (cursor != null && cursor.moveToFirst()) {
                     clusterManager.clearItems();
                     map.clear();
+                    if (lastLocation != null) {
+                        addLocationMarker(lastLocation);
+                    }
                     LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
                     do {
                         float lat = cursor.getFloat(DetailActivity.COL_LAT);

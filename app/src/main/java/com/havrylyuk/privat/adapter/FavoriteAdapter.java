@@ -2,6 +2,7 @@
 
 package com.havrylyuk.privat.adapter;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
@@ -93,6 +94,14 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FruitV
         this.listener = listener;
     }
 
+    public void removeFaovite(int position) {
+        if (mCursor != null && mCursor.moveToPosition(position)) {
+            long id = mCursor.getLong(DetailActivity.COL_ID);
+            ContentValues cv = new ContentValues();
+            cv.put(AcquiringContract.AcquiringEntry.ACQ_FAV, 0);
+            context.getContentResolver().update(AcquiringContract.AcquiringEntry.CONTENT_URI, cv, AcquiringContract.AcquiringEntry._ID + " = ?", new String[]{String.valueOf(id)});
+        }
+    }
     @Override
     public int getItemCount() {
         return mCursor == null ? 0 : mCursor.getCount();

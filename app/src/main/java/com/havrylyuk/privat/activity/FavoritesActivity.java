@@ -2,7 +2,6 @@ package com.havrylyuk.privat.activity;
 
 import android.app.ActivityOptions;
 import android.app.SearchManager;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -34,7 +33,6 @@ import android.net.Uri;
 
 import com.havrylyuk.privat.R;
 import com.havrylyuk.privat.adapter.FavoriteAdapter;
-import com.havrylyuk.privat.data.source.local.AcquiringContract;
 import com.havrylyuk.privat.data.source.local.AcquiringContract.AcquiringEntry;
 import com.havrylyuk.privat.util.Utility;
 
@@ -138,12 +136,10 @@ public class FavoritesActivity extends BaseActivity implements LoaderManager.Loa
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                         int location = viewHolder.getAdapterPosition();
-                        ContentValues cv = new ContentValues();
-                        /*cv.put(AcquiringContract.AcquiringEntry.ACQ_FAV, 1);
-                        getContentResolver().update(AcquiringContract.AcquiringEntry.CONTENT_URI, cv, AcquiringContract.AcquiringEntry._ID + " = ?", new String[]{String.valueOf(pointId)});
-                         if (favoritesAdapter.getCurrentPosition() > location) {
+                        favoritesAdapter.removeFaovite(location);
+                        if (favoritesAdapter.getCurrentPosition() > location) {
                             favoritesAdapter.setCurrentPosition(favoritesAdapter.getCurrentPosition() - 1);
-                        }*/
+                        }
                     }
                 };
 
