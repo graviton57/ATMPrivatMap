@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: '../api.gradle'
+apply from: '../versions.gradle'
 
 android {
     compileSdkVersion 25
@@ -22,7 +23,6 @@ android {
         }
     }
 
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -32,30 +32,23 @@ android {
 
 dependencies {
 
-    final SUPPORT_LIBRARY_VERSION = '25.1.0'
-    final RETROFIT_VERSION = '2.1.0'
-    final GOOGLE_PLAY_VERSION = '10.0.1'
-    final OKHTTP3_VERSION = '3.3.1'
-    final PICASSO_VERSION = '2.5.2'
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-vector-drawable:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    compile "com.android.support:support-v4:$supportVersion"
+    compile "com.android.support:recyclerview-v7:$supportVersion"
+    compile "com.android.support:design:$supportVersion"
+    compile "com.android.support:support-vector-drawable:$supportVersion"
 
-    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-    compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
-    compile "com.squareup.okhttp3:logging-interceptor:$OKHTTP3_VERSION"
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
-    compile "com.google.android.gms:play-services-maps:$GOOGLE_PLAY_VERSION"
-    compile "com.google.android.gms:play-services-location:$GOOGLE_PLAY_VERSION"
+    compile "com.google.android.gms:play-services-maps:$playServicesVersion"
+    compile "com.google.android.gms:play-services-location:$playServicesVersion"
 
-
-    compile 'com.google.maps.android:android-maps-utils:0.4.+'
-    compile "com.squareup.picasso:picasso:$PICASSO_VERSION"
+    compile "com.google.maps.android:android-maps-utils:$mapsUtilsVersion"
+    compile "com.squareup.picasso:picasso:$picassoVersion"
 
     testCompile 'junit:junit:4.12'
 }

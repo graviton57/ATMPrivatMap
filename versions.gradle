@@ -1,0 +1,9 @@
+ext {
+    supportVersion = '25.1.0'
+    okhttpVersion = '3.4.1'
+    retrofitVersion = '2.1.0'
+    mapsUtilsVersion = '0.4.+'
+    picassoVersion = '2.5.2'
+    playServicesVersion = '10.0.1'
+    junitVersion = '4.12'
+}
