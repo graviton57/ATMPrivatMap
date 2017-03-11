@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.google.maps.android.SphericalUtil.computeDistanceBetween;
+
 /**
  *
  * Created by Igor Havrylyuk on 25.01.2017.
@@ -150,4 +152,7 @@ public class Utility {
         return poly;
     }
 
+    private static double distance(LatLng point1, LatLng point2) {
+        return computeDistanceBetween(point1, point2) / 1000;//km
+    }
 }

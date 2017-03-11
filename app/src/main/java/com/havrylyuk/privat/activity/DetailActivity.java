@@ -413,11 +413,6 @@ public class DetailActivity extends BaseActivity  implements LoaderManager.Loade
         }
     }
 
-
-    private double distance(LatLng point1, LatLng point2) {
-        return computeDistanceBetween(point1,point2)/1000;//km
-    }
-
     private void drawRoute(LatLng origin, LatLng dest, String type) {
         // type walking, bicycling, transit, driving - default
         RouteMapService service = MapApiClient.retrofit().create(RouteMapService.class);

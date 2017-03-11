@@ -71,6 +71,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import static com.google.maps.android.SphericalUtil.computeDistanceBetween;
+
 
 /**
  * Maps Activity
@@ -87,10 +89,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = MapsActivity.class.getSimpleName();
-
     private static final int POINTS_LOADER = 0;
     private static final int SUGGEST_LOADER = 1;
-
 
     private GoogleMap map;
     GoogleApiClient googleApiClient;
@@ -104,13 +104,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private PointItem destinationPoint; //destination position
     Marker currLocationMarker;//original user position
     private SearchView searchView;
-    private SimpleCursorAdapter suggestionsAdapter;
     private PreferencesHelper pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         pref = PreferencesHelper.getInstance();
         setContentView(R.layout.activity_maps);
         setupSearchView();
@@ -120,33 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         registerReceiver(syncContentReceiver, filter);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_favorites:
-                                startActivity(new Intent(MapsActivity.this, FavoritesActivity.class));
-                                 break;
-                            case R.id.action_share:
-                                if (currLocationMarker != null) {
-                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                    shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                                    shareIntent.setType("text/plain");
-                                    String share = "geo:"+currLocationMarker.getPosition().latitude+
-                                            ","+currLocationMarker.getPosition().longitude;
-                                    shareIntent.putExtra(Intent.EXTRA_TEXT, share);
-                                    startActivity(shareIntent);
-                                }
-                                break;
-                            case R.id.action_settings:
-                                startActivity(new Intent(MapsActivity.this, SettingsActivity.class));
-                                break;
-                        }
-                        return true;
-                    }
-                });
-
+        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
@@ -161,15 +133,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onDestroy();
     }
 
+    private  BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.action_favorites:
+                    startActivity(new Intent(MapsActivity.this, FavoritesActivity.class));
+                    break;
+                case R.id.action_share:
+                    if (currLocationMarker != null) {
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                        shareIntent.setType("text/plain");
+                        String share = "geo:"+currLocationMarker.getPosition().latitude+
+                                ","+currLocationMarker.getPosition().longitude;
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, share);
+                        startActivity(shareIntent);
+                    }
+                    break;
+                case R.id.action_settings:
+                    startActivity(new Intent(MapsActivity.this, SettingsActivity.class));
+                    break;
+            }
+            return true;
+        }
+    };
+
     private  void  setupSearchView() {
          searchView = (SearchView) findViewById(R.id.searchView);
          SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
          searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
          searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-         suggestionsAdapter = new SimpleCursorAdapter(
-                 this, android.R.layout.simple_list_item_1, null,
-                 new String[] { SearchManager.SUGGEST_COLUMN_TEXT_1 },
-                 new int[] { android.R.id.text1 });
+         SimpleCursorAdapter suggestionsAdapter = new SimpleCursorAdapter(
+                this, android.R.layout.simple_list_item_1, null,
+                new String[]{SearchManager.SUGGEST_COLUMN_TEXT_1},
+                new int[]{android.R.id.text1});
          searchView.setSuggestionsAdapter(suggestionsAdapter);
          searchView.setOnTouchListener(new View.OnTouchListener() {
              @Override
@@ -180,45 +179,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                  return false;
              }
          });
-         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-             @Override
-             public boolean onSuggestionSelect(int position) {
-                 return true;
-             }
-
-             @Override
-             public boolean onSuggestionClick(int position) {
-                 CursorAdapter cursorAdapter = searchView.getSuggestionsAdapter();
-                 Cursor cursor = cursorAdapter.getCursor();
-                 cursor.moveToPosition(position);
-                 String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
-                 searchView.setQuery(query,true);
-                 requestedCity = query;
-                 getSupportLoaderManager().restartLoader(POINTS_LOADER, null, MapsActivity.this);
-                 hideKeyboard();
-                 return true;
-             }
-         });
-         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-             @Override
-             public boolean onQueryTextChange(String query) {
-                 if (query.length() >= pref.getSuggestionsCount(getString(R.string.pref_suggestions_start_count_key))) {
-                     requestedCity = query;
-                     getSupportLoaderManager().restartLoader(SUGGEST_LOADER, null, MapsActivity.this);
-                 }
-                 return true;
-             }
-             @Override
-             public boolean onQueryTextSubmit(String query) {
-                     requestedCity = query;
-                     searchView.clearFocus();
-                     searchView.getSuggestionsAdapter().changeCursor(null);
-                     getSupportLoaderManager().restartLoader(POINTS_LOADER, null, MapsActivity.this);
-                     return true;
-             }
-         });
-
+         searchView.setOnSuggestionListener(onSuggestionListener);
+         searchView.setOnQueryTextListener(onQueryTextListener);
      }
+
+    private  SearchView.OnSuggestionListener onSuggestionListener = new SearchView.OnSuggestionListener() {
+
+        @Override
+        public boolean onSuggestionSelect(int position) {
+            return true;
+        }
+
+        @Override
+        public boolean onSuggestionClick(int position) {
+            CursorAdapter cursorAdapter = searchView.getSuggestionsAdapter();
+            Cursor cursor = cursorAdapter.getCursor();
+            cursor.moveToPosition(position);
+            String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+            searchView.setQuery(query,true);
+            requestedCity = query;
+            getSupportLoaderManager().restartLoader(POINTS_LOADER, null, MapsActivity.this);
+            hideKeyboard();
+            return true;
+        }
+    };
+
+    private SearchView.OnQueryTextListener onQueryTextListener = new SearchView.OnQueryTextListener() {
+
+        @Override
+        public boolean onQueryTextChange(String query) {
+            if (query.length() >= pref.getSuggestionsCount(getString(R.string.pref_suggestions_start_count_key))) {
+                requestedCity = query;
+                getSupportLoaderManager().restartLoader(SUGGEST_LOADER, null, MapsActivity.this);
+            }
+            return true;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            requestedCity = query;
+            searchView.clearFocus();
+            searchView.getSuggestionsAdapter().changeCursor(null);
+            getSupportLoaderManager().restartLoader(POINTS_LOADER, null, MapsActivity.this);
+            return true;
+        }
+    };
 
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -486,6 +491,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onMapClick(LatLng latLng) {
     }
+
 
     private SyncContentReceiver syncContentReceiver;
 
