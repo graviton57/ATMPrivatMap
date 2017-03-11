@@ -47,30 +47,10 @@ public class SyncService extends IntentService {
             String reqCity = intent.getStringExtra(EXTRA_CITY);
             String reqAddress = intent.getStringExtra(EXTRA_ADDRESS);
             if(Utility.isNetworkAvailable(getBaseContext())){ //no network
-                    if (BuildConfig.DEBUG) Log.d(LOG_TAG, "load atm");
-                    AcquiringService service = PrivatBankApiClient.retrofit().create(AcquiringService.class);
-                    Call<AcquiringResponse> responseCall = service.getAtms(reqAddress, reqCity);
-                    try {
-                        AcquiringResponse response =  responseCall.execute().body();
-                        assert response != null;
-                        ContentValues[] cv = new ContentValues[response.getAcquiringPoints().size()];
-                        for (int i = 0; i < response.getAcquiringPoints().size(); i++) {
-                            cv[i] = pointsToContentValues(response.getAcquiringPoints().get(i));
-                        }
-                        getContentResolver().bulkInsert(AcquiringEntry.CONTENT_URI, cv);
-                        if (BuildConfig.DEBUG) Log.d(LOG_TAG, "load terminal");
-                        responseCall = service.getTerminals(reqAddress, reqCity);
-                        response =  responseCall.execute().body();
-                        assert response != null;
-                        cv = new ContentValues[response.getAcquiringPoints().size()];
-                        for (int i = 0; i < response.getAcquiringPoints().size(); i++) {
-                            cv[i] = pointsToContentValues(response.getAcquiringPoints().get(i));
-                        }
-                        getContentResolver().bulkInsert(AcquiringEntry.CONTENT_URI, cv);
-                        sendSyncStatus(END_SYNC);
-                    } catch (IOException  | OutOfMemoryError e) {
-                        e.printStackTrace();
-                    }
+                final AcquiringService service = PrivatBankApiClient.retrofit().create(AcquiringService.class);
+                loadAtm(service, reqAddress, reqCity);
+                loadTerminals(service, reqAddress, reqCity);
+                sendSyncStatus(END_SYNC);
             } else {
                 Log.w(LOG_TAG, "No internet connections");
                 sendSyncStatus(END_SYNC);
@@ -79,6 +59,38 @@ public class SyncService extends IntentService {
             long timeElapsed = lEndTime - lStartTime;
             if (BuildConfig.DEBUG) Log.d(LOG_TAG,
                     " ---- End network synchronization duration=" + (timeElapsed / 1000000000) );
+        }
+    }
+
+    private void loadAtm(AcquiringService service, String reqAddress, String reqCity) {
+        if (BuildConfig.DEBUG) Log.d(LOG_TAG, "load atm");
+        try {
+            Call<AcquiringResponse> responseCall = service.getAtms(reqAddress, reqCity);
+            AcquiringResponse response =  responseCall.execute().body();
+            assert response != null;
+            ContentValues[] cv = new ContentValues[response.getAcquiringPoints().size()];
+            for (int i = 0; i < response.getAcquiringPoints().size(); i++) {
+                cv[i] = pointsToContentValues(response.getAcquiringPoints().get(i));
+            }
+            getContentResolver().bulkInsert(AcquiringEntry.CONTENT_URI, cv);
+        } catch (IOException  | OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadTerminals(AcquiringService service, String reqAddress, String reqCity) {
+        if (BuildConfig.DEBUG) Log.d(LOG_TAG, "load terminal");
+         try {
+            Call<AcquiringResponse> responseCall = service.getTerminals(reqAddress, reqCity);
+            AcquiringResponse response =  responseCall.execute().body();
+            assert response != null;
+            ContentValues[] cv = new ContentValues[response.getAcquiringPoints().size()];
+            for (int i = 0; i < response.getAcquiringPoints().size(); i++) {
+                cv[i] = pointsToContentValues(response.getAcquiringPoints().get(i));
+            }
+            getContentResolver().bulkInsert(AcquiringEntry.CONTENT_URI, cv);
+        } catch (IOException  | OutOfMemoryError e) {
+            e.printStackTrace();
         }
     }
 

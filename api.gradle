@@ -1,0 +1,4 @@
+ext {
+     BASE_PRIVAT_URL = "https://api.privatbank.ua"
+     BASE_MAP_URL = "https://maps.googleapis.com/maps/"
+}

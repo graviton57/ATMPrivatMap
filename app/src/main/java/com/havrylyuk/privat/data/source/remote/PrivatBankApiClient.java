@@ -14,8 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PrivatBankApiClient {
 
-    //Base URL of Privat Bank public API
-    private static final String BASE_PRIVAT_URL = "https://api.privatbank.ua";
 
     private static Retrofit sRetrofit;
 
@@ -24,14 +22,18 @@ public class PrivatBankApiClient {
 
     public static Retrofit retrofit() {
         if (sRetrofit == null) {
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
-            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-            sRetrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_PRIVAT_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(client)
-                    .build();
+            synchronized (Retrofit.class) {
+                if (sRetrofit == null) {
+                    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                    interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+                    OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+                    sRetrofit = new Retrofit.Builder()
+                            .baseUrl(BuildConfig.BASE_PRIVAT_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(client)
+                            .build();
+                }
+            }
         }
         return sRetrofit;
     }

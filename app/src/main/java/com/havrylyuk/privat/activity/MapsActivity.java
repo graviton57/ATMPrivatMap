@@ -361,8 +361,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             if (addresses != null && addresses.size() > 0) {
-                //requestedCity = addresses.get(0).getLocality();
-                requestedCity = "Рус"; //todo remove this line
+                requestedCity = addresses.get(0).getLocality();
+                //requestedCity = "Рус"; //todo remove this line
                 String requestedAddress = addresses.get(0).getAddressLine(0);
                 Log.d(LOG_TAG, "You current cityname=" + requestedCity);
                 Log.d(LOG_TAG, "You current address=" + requestedAddress);
