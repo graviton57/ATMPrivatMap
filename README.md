@@ -22,7 +22,7 @@ All ATM and Terminals|Search | Detail info
 
 Route|Favorites list | Settings
 -------------|----------------- | -------------
-![alt text](screenshot/activity3.png "Route")  | ![alt text](screenshot/activity4.png "Favorites") | ![alt text](screenshot/activity4.png "Setting")
+![alt text](screenshot/activity3.png "Route")  | ![alt text](screenshot/activity4.png "Favorites") | ![alt text](screenshot/settings.png "Setting")
 
 
 
