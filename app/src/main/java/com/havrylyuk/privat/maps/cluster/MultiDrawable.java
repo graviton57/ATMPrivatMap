@@ -74,14 +74,10 @@ public class MultiDrawable extends Drawable {
         canvas.restore();
     }
 
-    @Override
     public void setAlpha(int i) {
-
     }
 
-    @Override
     public void setColorFilter(ColorFilter colorFilter) {
-
     }
 
     @Override

@@ -39,8 +39,6 @@ public class AcquiringProvider extends ContentProvider {
         );
     }
 
-
-
     private static final String aqcTsoByIdSelection = AcquiringEntry.TABLE_NAME + "." + AcquiringEntry._ID + " = ? ";
 
     private Cursor getAcquiringsById(Uri uri, String[] projection, String sortOrder) {
@@ -145,7 +143,6 @@ public class AcquiringProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return returnUri;
     }
-
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,

@@ -19,18 +19,15 @@ import java.util.Locale;
 
 public class Utility {
 
-
-
     public static String[] buildRequestedArgs(Context context, String query) {
         PreferencesHelper pref = PreferencesHelper.getInstance();
         if ("ALL".equalsIgnoreCase(pref.getSearchMode(context.getString(R.string.pref_query_list_key), "ALL"))) {
-            return new String[]{"%"+query+"%"};
+            return new String[]{"%" + query + "%"};
         } else if ("ATM".equalsIgnoreCase(pref.getSearchMode(context.getString(R.string.pref_query_list_key), "ALL")) ){
-            return new String[]{"%"+query+"%","ATM"};
+            return new String[]{"%" + query + "%", "ATM"};
         } else {
-            return new String[]{"%"+query+"%","TSO"};
+            return new String[]{"%" + query + "%", "TSO"};
         }
-
     }
 
     public static String buildRequestedSelection(Context context) {
@@ -82,7 +79,6 @@ public class Utility {
         return isNetworkAvailable;
     }
 
-
     public static String getNameFromType(Context context, String type) {
         if (context.getString(R.string.type_atm).equalsIgnoreCase(type)) {
             return context.getString(R.string.atm);
@@ -101,7 +97,6 @@ public class Utility {
             result = 0;
         return result;
     }
-
 
     public static String normalizeStr(String place) {
         return TextUtils.isEmpty(place) ? "" : place.replace('\\', ' ');
@@ -152,7 +147,6 @@ public class Utility {
                     (((double) lng / 1E5) ));
             poly.add(p);
         }
-
         return poly;
     }
 

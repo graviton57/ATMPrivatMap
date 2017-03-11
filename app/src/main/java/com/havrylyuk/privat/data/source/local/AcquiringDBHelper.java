@@ -74,9 +74,8 @@ public class AcquiringDBHelper extends SQLiteOpenHelper {
         context.startService(intent);
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
     }
 
 }

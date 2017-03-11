@@ -224,6 +224,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
@@ -282,10 +283,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    @Override
     public void onConnectionSuspended(int i) {
-        //
     }
+
     private void addLocationMarker(Location location) {
         lastLocation = location;
         if (currLocationMarker != null) {
@@ -300,9 +300,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             currLocationMarker = map.addMarker(markerOptions);
         }
     }
+
     @Override
     public void onLocationChanged(Location location) {
-
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         addLocationMarker(location);
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -313,9 +313,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
     }
 
     public static final int AQC_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -349,7 +347,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         map.setMyLocationEnabled(true);
                     }
-
                 } else {
                     Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_LONG).show();
                 }
@@ -395,7 +392,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case SUGGEST_LOADER:
                 return new CursorLoader(this,
                         AcquiringEntry.CONTENT_URI,
-                        new String[]{AcquiringEntry._ID, AcquiringEntry.ACQ_FULL_ADR + " AS " + SearchManager.SUGGEST_COLUMN_TEXT_1},
+                        new String[]{AcquiringEntry._ID, AcquiringEntry.ACQ_FULL_ADR +
+                                " AS " + SearchManager.SUGGEST_COLUMN_TEXT_1},
                         Utility.buildSuggestSelection(requestedCity),
                         Utility.buildSuggestArgs(requestedCity),
                         null);
@@ -448,10 +446,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
     }
+
     private void greenToast(String message) {
         final SpannableString spannableString = new SpannableString(message);
         spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary)), 0, spannableString.length(), 0);
@@ -474,9 +471,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return true;
     }
 
-    @Override
     public void onClusterInfoWindowClick(Cluster<PointItem> cluster) {
-        //
     }
 
     @Override
@@ -489,15 +484,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
-
-    @Override
     public void onMapClick(LatLng latLng) {
-     //
     }
 
     private SyncContentReceiver syncContentReceiver;
-
-
 
     public class SyncContentReceiver extends BroadcastReceiver {
         public static final String SYNC_RESPONSE_STATUS = "com.havrylyuk.privat.intent.action.SYNC_RESPONSE_STATUS";
@@ -509,8 +499,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
-
-
-
-
 }

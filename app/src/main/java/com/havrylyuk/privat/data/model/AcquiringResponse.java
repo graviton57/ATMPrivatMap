@@ -14,11 +14,7 @@ public class AcquiringResponse {
 
     @SerializedName("devices")
     private  List<AcquiringPoint> acquiringPoints;
-    /*@SerializedName("city")
-    private String requestedCity;
-    @SerializedName("address")
-    private String requestedAddress;
-*/
+
     public AcquiringResponse(List<AcquiringPoint> acquiringPoints) {
         this.acquiringPoints = acquiringPoints;
     }

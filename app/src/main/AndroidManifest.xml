@@ -59,7 +59,14 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/action_settings"
+            android:parentActivityName=".activity.MapsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.havrylyuk.privat.activity.MapsActivity" />
+        </activity>
         <!-- Providers -->
         <provider
             android:name=".data.source.local.AcquiringProvider"
@@ -71,14 +78,6 @@
             android:name=".service.SyncService"
             android:exported="false" />
 
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:label="@string/action_settings"
-            android:parentActivityName=".activity.MapsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.havrylyuk.privat.activity.MapsActivity" />
-        </activity>
     </application>
 
 </manifest>

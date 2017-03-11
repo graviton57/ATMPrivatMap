@@ -2,6 +2,7 @@ package com.havrylyuk.privat.activity;
 
 import android.app.ActivityOptions;
 import android.app.SearchManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -75,7 +76,6 @@ public class FavoritesActivity extends BaseActivity implements LoaderManager.Loa
                 }, 2000);
             }
         });
-
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
@@ -136,7 +136,7 @@ public class FavoritesActivity extends BaseActivity implements LoaderManager.Loa
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                         int location = viewHolder.getAdapterPosition();
-                        favoritesAdapter.removeFaovite(location);
+                        removeFavorite(favoritesAdapter.getItemId(location));
                         if (favoritesAdapter.getCurrentPosition() > location) {
                             favoritesAdapter.setCurrentPosition(favoritesAdapter.getCurrentPosition() - 1);
                         }
@@ -151,10 +151,8 @@ public class FavoritesActivity extends BaseActivity implements LoaderManager.Loa
         @Override
         public void onItemSelected(Uri uri, FavoriteAdapter.FruitViewHolder vh) {
             Bundle args = new Bundle();
-
                 Intent intent = new Intent(FavoritesActivity.this, DetailActivity.class);
                 args.putParcelable(DetailActivity.DETAIL_POINT_URI, uri);
-
                 if (getResources().getConfiguration().orientation == OrientationHelper.VERTICAL &&
                         Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     args.putString(DetailActivity.TRANSITION_NAME, getString(R.string.detail_icon_transition_name));
@@ -178,7 +176,6 @@ public class FavoritesActivity extends BaseActivity implements LoaderManager.Loa
         setupSearchView(searchItem);
         return true;
     }
-
 
     private void setupSearchView(MenuItem searchItem) {
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
@@ -221,6 +218,16 @@ public class FavoritesActivity extends BaseActivity implements LoaderManager.Loa
         }
     }
 
+    private void removeFavorite(long id) {
+            ContentValues cv = new ContentValues();
+            cv.put(AcquiringEntry.ACQ_FAV, 0);
+            getContentResolver().update(
+                    AcquiringEntry.CONTENT_URI,
+                    cv,
+                    AcquiringEntry._ID + " = ?",
+                    new String[]{String.valueOf(id)});
+    }
+
     private void updateQuery() {
          getSupportLoaderManager().restartLoader(POINTS_LOADER, null, this);
     }
@@ -232,7 +239,8 @@ public class FavoritesActivity extends BaseActivity implements LoaderManager.Loa
                             AcquiringEntry.TABLE_NAME + "."
                             + AcquiringEntry.ACQ_FULL_ADR+ " LIKE ? "
                             + "AND "+AcquiringEntry.ACQ_FAV + " =? ": AcquiringEntry.ACQ_FAV + " =? ";
-           String[] selAgrs = searchQuery != null ? new String[]{Utility.toCapsWord(searchQuery) + "%","1"} : new String[]{"1"};
+           String[] selAgrs = searchQuery != null ?
+                   new String[]{Utility.toCapsWord(searchQuery) + "%","1"} : new String[]{"1"};
             return new CursorLoader(this,
                     AcquiringEntry.CONTENT_URI,
                     DETAIL_COLUMNS,

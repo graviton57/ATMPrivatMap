@@ -2,7 +2,6 @@
 
 package com.havrylyuk.privat.adapter;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
@@ -17,7 +16,7 @@ import android.widget.TextView;
 import com.havrylyuk.privat.R;
 import com.havrylyuk.privat.util.ImageHelper;
 import com.havrylyuk.privat.activity.DetailActivity;
-import com.havrylyuk.privat.data.source.local.AcquiringContract;
+import com.havrylyuk.privat.data.source.local.AcquiringContract.AcquiringEntry;
 
 import android.net.Uri;
 
@@ -36,7 +35,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FruitV
 
     private OnItemSelectedListener listener;
 
-    private Cursor mCursor;
+    private Cursor cursor;
     private Context context;
     private int currentPosition = RecyclerView.NO_POSITION;
 
@@ -45,7 +44,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FruitV
     }
 
     public void swapCursor(Cursor cursor) {
-        this.mCursor = cursor;
+        this.cursor = cursor;
         notifyDataSetChanged();
     }
 
@@ -57,17 +56,17 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FruitV
 
     @Override
     public void onBindViewHolder(final FruitViewHolder holder, int position) {
-        mCursor.moveToPosition(position);
+        cursor.moveToPosition(position);
         holder.image.setImageDrawable(null);
-        final long id = mCursor.getLong(DetailActivity.COL_ID);
-        String type = mCursor.getString(DetailActivity.COL_TYPE);
+        final long id = cursor.getLong(DetailActivity.COL_ID);
+        String type = cursor.getString(DetailActivity.COL_TYPE);
         if (type.equalsIgnoreCase(context.getString(R.string.type_atm))) {
             ImageHelper.load("file:///android_asset/bankomat.png", holder.image);
         } else {
             ImageHelper.load("file:///android_asset/terminal.png", holder.image);
         }
-        holder.name.setText(mCursor.getString(DetailActivity.COL_CITY));
-        holder.type.setText(mCursor.getString(DetailActivity.COL_ADR));
+        holder.name.setText(cursor.getString(DetailActivity.COL_CITY));
+        holder.type.setText(cursor.getString(DetailActivity.COL_ADR));
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,11 +74,19 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FruitV
                 currentPosition = holder.getAdapterPosition();
                 notifyItemChanged(currentPosition);
                 if (listener != null) {
-                    listener.onItemSelected(AcquiringContract.AcquiringEntry.buildAcquiringUri(id), holder);
+                    listener.onItemSelected(AcquiringEntry.buildAcquiringUri(id), holder);
                 }
             }
         });
         holder.view.setSelected(currentPosition == position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        if (cursor != null && cursor.moveToPosition(position)) {
+            return cursor.getLong(DetailActivity.COL_ID);
+        }
+        return super.getItemId(position);
     }
 
     public int getCurrentPosition() {
@@ -94,17 +101,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FruitV
         this.listener = listener;
     }
 
-    public void removeFaovite(int position) {
-        if (mCursor != null && mCursor.moveToPosition(position)) {
-            long id = mCursor.getLong(DetailActivity.COL_ID);
-            ContentValues cv = new ContentValues();
-            cv.put(AcquiringContract.AcquiringEntry.ACQ_FAV, 0);
-            context.getContentResolver().update(AcquiringContract.AcquiringEntry.CONTENT_URI, cv, AcquiringContract.AcquiringEntry._ID + " = ?", new String[]{String.valueOf(id)});
-        }
-    }
     @Override
     public int getItemCount() {
-        return mCursor == null ? 0 : mCursor.getCount();
+        return cursor == null ? 0 : cursor.getCount();
     }
 
     public static class FruitViewHolder extends RecyclerView.ViewHolder {

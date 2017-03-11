@@ -5,13 +5,13 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.util.Log;
 
-import com.havrylyuk.privat.activity.FavoritesActivity;
+import com.havrylyuk.privat.BuildConfig;
 import com.havrylyuk.privat.activity.MapsActivity;
+import com.havrylyuk.privat.data.model.AcquiringPoint;
+import com.havrylyuk.privat.data.model.AcquiringResponse;
 import com.havrylyuk.privat.data.source.local.AcquiringContract.AcquiringEntry;
 import com.havrylyuk.privat.data.source.remote.AcquiringService;
 import com.havrylyuk.privat.data.source.remote.PrivatBankApiClient;
-import com.havrylyuk.privat.data.model.AcquiringPoint;
-import com.havrylyuk.privat.data.model.AcquiringResponse;
 import com.havrylyuk.privat.util.Utility;
 
 import java.io.IOException;
@@ -41,13 +41,13 @@ public class SyncService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
-            Log.d(LOG_TAG, " Beginning network data synchronization ");// todo remove after debug
+            if (BuildConfig.DEBUG) Log.d(LOG_TAG, " Beginning network data synchronization ");
             long lStartTime = System.nanoTime();
             sendSyncStatus(START_SYNC);
             String reqCity = intent.getStringExtra(EXTRA_CITY);
             String reqAddress = intent.getStringExtra(EXTRA_ADDRESS);
             if(Utility.isNetworkAvailable(getBaseContext())){ //no network
-                    Log.d(LOG_TAG, "load atm");
+                    if (BuildConfig.DEBUG) Log.d(LOG_TAG, "load atm");
                     AcquiringService service = PrivatBankApiClient.retrofit().create(AcquiringService.class);
                     Call<AcquiringResponse> responseCall = service.getAtms(reqAddress, reqCity);
                     try {
@@ -58,10 +58,8 @@ public class SyncService extends IntentService {
                             cv[i] = pointsToContentValues(response.getAcquiringPoints().get(i));
                         }
                         getContentResolver().bulkInsert(AcquiringEntry.CONTENT_URI, cv);
-
-                    Log.d(LOG_TAG, "load terminal");
-                    responseCall = service.getTerminals(reqAddress, reqCity);
-
+                        if (BuildConfig.DEBUG) Log.d(LOG_TAG, "load terminal");
+                        responseCall = service.getTerminals(reqAddress, reqCity);
                         response =  responseCall.execute().body();
                         assert response != null;
                         cv = new ContentValues[response.getAcquiringPoints().size()];
@@ -73,15 +71,14 @@ public class SyncService extends IntentService {
                     } catch (IOException  | OutOfMemoryError e) {
                         e.printStackTrace();
                     }
-
             } else {
                 Log.w(LOG_TAG, "No internet connections");
                 sendSyncStatus(END_SYNC);
             }
-            // todo remove after debug
             long lEndTime = System.nanoTime();
             long timeElapsed = lEndTime - lStartTime;
-            Log.d(LOG_TAG, " ---- End network synchronization duration=" + (timeElapsed / 1000000000) );
+            if (BuildConfig.DEBUG) Log.d(LOG_TAG,
+                    " ---- End network synchronization duration=" + (timeElapsed / 1000000000) );
         }
     }
 

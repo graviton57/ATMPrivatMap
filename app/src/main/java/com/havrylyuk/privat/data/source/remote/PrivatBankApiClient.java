@@ -1,5 +1,7 @@
 package com.havrylyuk.privat.data.source.remote;
 
+import com.havrylyuk.privat.BuildConfig;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -23,7 +25,7 @@ public class PrivatBankApiClient {
     public static Retrofit retrofit() {
         if (sRetrofit == null) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
             sRetrofit = new Retrofit.Builder()
                     .baseUrl(BASE_PRIVAT_URL)

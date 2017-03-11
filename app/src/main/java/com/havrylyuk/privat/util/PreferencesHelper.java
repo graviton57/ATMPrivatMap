@@ -1,7 +1,6 @@
 package com.havrylyuk.privat.util;
 
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
 import com.havrylyuk.privat.AppPrivat;
 
