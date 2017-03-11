@@ -4,24 +4,27 @@
   <img src="screenshot/logo.png" >
 </p>
 
+#### Where is Acquiring Assistant?
+Simple Android app that can help you to find PrivatBank ATM's and Self-service terminals.
+You can:
+  - Search for ATM's and Self-service terminals: to find the ATM and self-service terminal, enter the address of a comma-separated. (City, street, etc.)
+  - Check details of the device (place, timetable)
+  - All data are loaded from the server are stored in a SQLite database and are available without internet.
+  - You can build a route to any device using Google Maps app
+  - Manage your favorite list (search, remove)
+  - Manage application settings
 
 
-#### All ATM and Terminals
-![alt text](screenshot/activity0.png "Activity 0")
+All ATM and Terminals|Search | Detail info
+-------------|----------------- | -------------
+![alt text](screenshot/activity0.png "Main")  | ![alt text](screenshot/activity1.png "Search") | ![alt text](screenshot/activity2.png "Detail")
 
-#### Search
 
-To find the ATM and self-service terminal, enter the address of a comma-separated. (City, street, etc.)
+Route|Favorites list | Settings
+-------------|----------------- | -------------
+![alt text](screenshot/activity3.png "Route")  | ![alt text](screenshot/activity4.png "Favorites") | ![alt text](screenshot/activity4.png "Setting")
 
-![alt text](screenshot/activity1.png "Activity 1")
-#### Detail info
-![alt text](screenshot/activity2.png "Activity 2")
-#### Route
-![alt text](screenshot/activity3.png "Activity 3")
-#### Favorites list
-![alt text](screenshot/activity4.png "Activity 4")
 
-All data are loaded from the server are stored in a SQLite database and are available without internet.
 
 #### Used libraries:
 * com.squareup.picasso:picasso:2.5.2
