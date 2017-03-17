@@ -4,6 +4,8 @@
   <img src="screenshot/logo.png" >
 </p>
 
+[![API](https://img.shields.io/badge/API-16%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=16)
+
 #### Where is Acquiring Assistant?
 Simple Android app that can help you to find PrivatBank ATM's and Self-service terminals.
 You can:
